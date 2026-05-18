@@ -1,0 +1,12 @@
+# Python bytecode cache (created when the vendored pyhop runs)
+__pycache__/
+*.pyc
+
+# SWI-Prolog saved states / compiled files
+*.qlf
+
+# Editor and OS cruft
+*.swp
+*.swo
+*~
+.DS_Store
