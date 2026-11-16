@@ -83,6 +83,26 @@ goal — printing what the engine decides and why.
 Prefer `make`? `make demo` does the same in one step, and `make repl`
 starts an interactive session with everything loaded.
 
+## Installing as a Debian package
+
+```sh
+make release    # runs the tests, then builds the .deb with debrelease
+sudo apt install ~/debs/public/flp-rulebook_0.0.5_all.deb
+```
+
+The package installs everything under `/usr/share/flp-rulebook`. To
+load it from another program, declare a search-path alias. The
+`FLP_RULEBOOK` environment variable lets a source checkout take
+precedence over the installed copy:
+
+```prolog
+:- multifile user:file_search_path/2.
+user:file_search_path(flp_rulebook, Dir) :- getenv('FLP_RULEBOOK', Dir).
+user:file_search_path(flp_rulebook, '/usr/share/flp-rulebook').
+
+:- use_module(flp_rulebook(flp_rulebook)).
+```
+
 ## Running the tests
 
 ```sh

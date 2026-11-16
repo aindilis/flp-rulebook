@@ -1,0 +1,9 @@
+flp-rulebook (0.0.5) unstable; urgency=medium
+
+  * Debian packaging: installs to /usr/share/flp-rulebook (engine, layers,
+    load.pl, examples, vendored PyHOP); docs in /usr/share/doc/flp-rulebook.
+  * LICENSE now holds the verbatim GPLv3 text (was a placeholder).
+  * Makefile: check (same as test) and release targets.
+  * README: installing the package and loading it from another program.
+
+ -- Andrew Dougherty <552578+aindilis@users.noreply.github.com>  Mon, 16 Nov 2026 04:30:00 -0500

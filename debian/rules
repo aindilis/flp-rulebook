@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+# flp-rulebook is pure SWI-Prolog (plus a vendored Python file): nothing
+# to compile.  Uses only dpkg-dev (no debhelper), so it builds anywhere
+# dpkg-buildpackage does, without root (Rules-Requires-Root: no).
+
+PKG   := flp-rulebook
+DEST  := debian/$(PKG)
+SHARE := $(DEST)/usr/share/$(PKG)
+DOC   := $(DEST)/usr/share/doc/$(PKG)
+
+build build-arch build-indep:
+	@echo "nothing to build"
+
+clean:
+	rm -rf $(DEST) debian/files debian/*.substvars
+	find . -type d -name __pycache__ -prune -exec rm -rf {} +
+
+binary-arch:
+	@echo "no architecture-dependent packages"
+
+binary-indep:
+	rm -rf $(DEST)
+	install -d $(SHARE)/vendor $(SHARE)/examples $(DOC)
+	install -m 644 flp_rulebook.pl flp_activities.pl flp_export.pl \
+	  flp_planner.pl load.pl $(SHARE)/
+	install -m 644 vendor/pyhop.py vendor/README.md $(SHARE)/vendor/
+	install -m 644 examples/*.pl $(SHARE)/examples/
+	dpkg-parsechangelog -SVersion > $(SHARE)/VERSION
+	install -m 644 README.md GUIDE.md DESIGN.md ROADMAP.md debian/copyright $(DOC)/
+	gzip -9n -c debian/changelog > $(DOC)/changelog.gz
+	find $(DEST) -type d -exec chmod 755 {} +
+	install -d $(DEST)/DEBIAN
+	dpkg-gencontrol -p$(PKG) -P$(DEST)
+	cd $(DEST) && find usr -type f -exec md5sum {} + | sort -k2 > DEBIAN/md5sums
+	dpkg-deb --root-owner-group --build $(DEST) ..
+
+binary: binary-indep binary-arch
+
+.PHONY: build build-arch build-indep clean binary binary-arch binary-indep

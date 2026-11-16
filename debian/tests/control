@@ -1,0 +1,11 @@
+Test-Command: swipl -g run_tests -t halt flp_rulebook.pl test_flp_rulebook.pl
+Depends: swi-prolog-nox
+Restrictions: superficial
+
+Test-Command: swipl -g run_tests -t halt flp_rulebook.pl flp_activities.pl test_flp_activities.pl
+Depends: swi-prolog-nox
+Restrictions: superficial
+
+Test-Command: swipl -g run_tests -t halt flp_rulebook.pl flp_export.pl test_flp_export.pl
+Depends: swi-prolog-nox
+Restrictions: superficial

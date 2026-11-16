@@ -1,0 +1,25 @@
+Source: flp-rulebook
+Section: misc
+Priority: optional
+Maintainer: Andrew Dougherty <552578+aindilis@users.noreply.github.com>
+Build-Depends: dpkg-dev (>= 1.19.0)
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+Homepage: https://github.com/aindilis/flp-rulebook
+
+Package: flp-rulebook
+Architecture: all
+Depends: swi-prolog-nox (>= 9.0)
+Suggests: python3
+Description: Inform 7-inspired rulebook engine in Prolog, for life planning
+ flp-rulebook collects the rules that apply to an action or activity,
+ orders them by explicit priority, and returns structured outcomes
+ (block, prereq, advise, warn).  Facts carry a staleness model (sticky,
+ live, decay) because a planner's knowledge of the world is partial.
+ .
+ Layers: the core engine; activities with before/during/after rulebooks;
+ export of a decision to HDDL, PDDL or Peleus; and an HTN planner
+ round-trip through a vendored copy of PyHOP (needs python3).
+ .
+ Files are installed in /usr/share/flp-rulebook.  Other programs load
+ them through a file_search_path alias; see the README.

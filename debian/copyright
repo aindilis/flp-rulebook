@@ -1,0 +1,30 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: flp-rulebook
+Upstream-Contact: Andrew Dougherty <552578+aindilis@users.noreply.github.com>
+Source: https://github.com/aindilis/flp-rulebook
+
+Files: *
+Copyright: 2026 Andrew Dougherty
+License: GPL-3+
+
+Files: vendor/pyhop.py
+Copyright: 2013 Dana S. Nau
+License: Apache-2.0
+Comment: Modified 2026 for flp-rulebook: the helpers import was replaced
+ with four no-op stubs.  See vendor/README.md.
+
+License: GPL-3+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ .
+ On Debian systems, the complete text of the GNU General Public License
+ version 3 can be found in /usr/share/common-licenses/GPL-3.
+
+License: Apache-2.0
+ Licensed under the Apache License, Version 2.0 (the "License"); you may
+ not use this file except in compliance with the License.
+ .
+ On Debian systems, the complete text of the Apache License 2.0 can be
+ found in /usr/share/common-licenses/Apache-2.0.
