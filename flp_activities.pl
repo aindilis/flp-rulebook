@@ -181,11 +181,13 @@ activity_problem(block_outside_before(after, Activity)) :-
     clause(after_rule(Activity, _, block, _), _).
 
 % Two rules in the same phase+activity sharing a priority.
+% Compared by clause reference, as in the core (see flp_rulebook.pl):
+% a computed consequence must not make one clause look like two.
 activity_problem(duplicate_priority(Phase, Activity, Pri)) :-
     phase_rule(Phase, RuleHead),
-    G1 =.. [RuleHead, Activity, Pri, _, C1], clause(G1, _),
-    G2 =.. [RuleHead, Activity, Pri, _, C2], clause(G2, _),
-    C1 @< C2.
+    G1 =.. [RuleHead, Activity, Pri, _, _], clause(G1, _, R1),
+    G2 =.. [RuleHead, Activity, Pri, _, _], clause(G2, _, R2),
+    R1 @< R2.
 
 phase_rule(before, before_rule).
 phase_rule(during, during_rule).

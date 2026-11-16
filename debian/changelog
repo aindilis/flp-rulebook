@@ -1,3 +1,14 @@
+flp-rulebook (0.0.6) unstable; urgency=medium
+
+  * verify_rulebase/1 and verify_activities/1: duplicate_priority now tells
+    clauses apart by clause reference. Rules whose consequence is computed
+    in the body (e.g. note(Text)) no longer report a false duplicate.
+  * consider/1 prints the consequence text; it printed the literal term
+    text(note(...)) before.
+  * Tests for both.
+
+ -- Andrew Dougherty <552578+aindilis@users.noreply.github.com>  Mon, 16 Nov 2026 07:30:00 -0500
+
 flp-rulebook (0.0.5) unstable; urgency=medium
 
   * Debian packaging: installs to /usr/share/flp-rulebook (engine, layers,

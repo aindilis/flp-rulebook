@@ -276,7 +276,25 @@ test(body_facts_qualified_inside_negation) :-
 % ============================================================
 %  GROUP 6.  Rulebase verification
 % ============================================================
+% A rule whose consequence is computed in its body, the way
+% flp-verification's execute_plan rule is. Used by two tests below.
+:- multifile flp_rulebook:rule/4.
+flp_rulebook:rule(test_computed_consequence, 5, warn, note(T)) :-
+    atom_concat(comp, uted, T).
+
 :- begin_tests(verification).
+
+% Two copies of ONE clause with a variable consequence must not be
+% reported as a duplicate priority (regression: compare clause refs).
+test(computed_consequence_not_duplicate) :-
+    verify_rulebase(Problems),
+    assertion(\+ memberchk(duplicate_priority(test_computed_consequence, _), Problems)).
+
+% consider/1 prints the consequence text, not the term text(note(...)).
+test(consider_prints_consequence_text) :-
+    with_output_to(string(S), consider(test_computed_consequence)),
+    assertion(sub_string(S, _, _, _, "computed")),
+    assertion(\+ sub_string(S, _, _, _, "text(")).
 
 % The shipped rulebase has no conflicting_outcome or
 % duplicate_priority or opaque_fact_reference problems.

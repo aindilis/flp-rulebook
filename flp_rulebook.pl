@@ -311,10 +311,12 @@ consider(Trigger) :-
     ),
     show_stale_warnings(Trigger).
 
-show_outcome(outcome(block,  C, _)) :- format("   [BLOCK]   ~w~n", [text(C)]).
-show_outcome(outcome(prereq, C, _)) :- format("   [DO 1ST]  ~w~n", [text(C)]).
-show_outcome(outcome(advise, C, _)) :- format("   [SUGGEST] ~w~n", [text(C)]).
-show_outcome(outcome(warn,   C, _)) :- format("   [HEADS-UP]~w~n", [text(C)]).
+% ~@ runs text(C) to print the consequence; ~w would print the
+% literal term text(note(...)).
+show_outcome(outcome(block,  C, _)) :- format("   [BLOCK]   ~@~n", [text(C)]).
+show_outcome(outcome(prereq, C, _)) :- format("   [DO 1ST]  ~@~n", [text(C)]).
+show_outcome(outcome(advise, C, _)) :- format("   [SUGGEST] ~@~n", [text(C)]).
+show_outcome(outcome(warn,   C, _)) :- format("   [HEADS-UP]~@~n", [text(C)]).
 
 text(task(T))  :- format("~w", [T]).
 text(note(N))  :- format("~w", [N]).
@@ -394,11 +396,16 @@ rulebase_problem(conflicting_outcome(Trigger, Cons)) :-
 
 % Invariant 2: two rules on the same trigger sharing a priority
 % (ordering then depends on clause order — fragile).
-% Structural — inspect via clause/2, do not run conditions.
+% Structural — inspect via clause/3, do not run conditions.
+% Distinct clauses are told apart by clause REFERENCE, not by
+% comparing consequences: a rule whose consequence is computed in
+% its body (e.g. note(Text)) has a variable there, and two copies
+% of the SAME clause would otherwise compare as different.
+% (This was a real bug, found when flp-verification added such a rule.)
 rulebase_problem(duplicate_priority(Trigger, Pri)) :-
-    clause(rule(Trigger, Pri, _, C1), _),
-    clause(rule(Trigger, Pri, _, C2), _),
-    C1 @< C2.
+    clause(rule(Trigger, Pri, _, _), _, R1),
+    clause(rule(Trigger, Pri, _, _), _, R2),
+    R1 @< R2.
 
 % Invariant 3: a prereq names a task with no known way to be
 % verified/completed (no fact, no maintenance entry). Advisory
